@@ -1,0 +1,5 @@
+obj
+bin
+config/uniqueValues.targets
+.vscode/launch.json
+Properties/AssemblyInfo.cs

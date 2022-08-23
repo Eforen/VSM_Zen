@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <!-- Load the values that will be difrent on every system -->
+    <Import Project="$(MSBuildProjectDirectory)\config\uniqueValues.targets"/>
+    
+    <PropertyGroup>
+        <!-- Meta Data Generation Info -->
+        <ModType Condition=" '$(ModType)' == '' ">code</ModType>
+        <!-- <ModType Condition=" '$(ModType)' == '' ">json</ModType> --> <!-- Not supported yet ask in issues on repo if you want this -->
+        <ProjectGUID>00000000-0000-0000-0000-000000000000</ProjectGUID>
+        <ModNameHuman Condition=" '$(ModNameHuman)' == '' ">Eforen's Mod Template</ModNameHuman>
+        <ModNameMechine Condition=" '$(ModNameMechine)' == '' ">eforenmodtemplate</ModNameMechine>
+        <!-- <ModAuthors Condition=" '$(ModAuthors)' == '' ">Eforen</ModAuthors> -->
+        <ModAuthors Condition=" '$(ModAuthors)' == '' ">Author1|Author2</ModAuthors>
+        <ModDescription>Eforen's Mod Template</ModDescription>
+        <!-- Do not inclued game in the mod ModDependencies VersionGameMinimum is automatically used already for that -->
+        <!-- <ModDependenciesNameOnly>survival|onestick</ModDependenciesNameOnly>
+        <ModDependenciesWithVersions>survival|onestick:1.0.1</ModDependenciesWithVersions> -->
+
+        <!-- DO NOT USE THIS FORMAT IT DOES NOT WORK YET JUST IS WHAT I WANT TO USE -->
+        <ModDependencies>
+            <!-- Do not inclued game in the mod ModDependencies VersionGameMinimum is automatically used already for that -->
+            <survival/> <!-- a dependency with no version requirement -->
+            <onestick>1.0.1</onestick> <!-- a dependency with a version requirement -->
+        </ModDependencies>
+
+
+        <ModRequiredOnClient>true</ModRequiredOnClient>
+        <!-- <ModRequiredOnClient>false</ModRequiredOnClient> -->
+        <!-- <BuildAssemblyCompany>CompanyName</BuildAssemblyCompany> -->
+        <!-- <BuildAssemblyCopyright>Copyright Holder</BuildAssemblyCopyright> -->
+        <ModWebsite>https://github.com/Eforen/VintageStoryModTemplate</ModWebsite>
+
+        <!-- Debugging Settings -->
+        <!-- Use Next line if you want to set a default for this project. Use uniqueValues.targets if you want to set this for you only. -->
+        <!-- <DebugTestWorldBase Condition=" '$(DebugTestWorldBase)' == '' ">ProjectTestWorldDefault</DebugTestWorldBase> -->
+        <!-- Use Next line if you want to set a default for this project. Use uniqueValues.targets if you want to set this for you only. -->
+        <!-- <DebugGameMode Condition=" '$(DebugGameMode)' == '' ">creative</DebugGameMode> -->
+        <!-- <ModsOutputDir.var Condition=" '$(ModsOutputDir.var)' == '' ">C:/Games/MyModBuilds</ModsOutputDir.var> -->
+        
+        <!-- Game Files Locations -->
+        <!-- Use Next line if you want to set a default for this project. Use uniqueValues.targets if you want to set this for you only. -->
+        <!-- <GameFilesPrefix Condition=" '$(GameFilesPrefix)' == '' ">C:\Games\VintageStory\Vintagestory_</GameFilesPrefix> -->
+        
+        <!-- Versioning Info -->
+        <VersionGame Condition=" '$(VersionGame)' == '' ">1.17.0rc5</VersionGame> <!-- This is used in several places including to generate the launch files -->
+        <VersionModMajor Condition=" '$(VersionModMajor)' == '' ">0</VersionModMajor>
+        <VersionModMinor Condition=" '$(VersionModMinor)' == '' ">0</VersionModMinor>
+        <VersionModPatch Condition=" '$(VersionModPatch)' == '' ">1</VersionModPatch>
+        
+        <!-- Compatibility Info -->
+        <VersionGameMinimum Condition=" '$(VersionGameMinimum)' == '' ">1.17.0-rc.1</VersionGameMinimum>
+        
+        <!-- Build Settings (You should not need to use these but they are here just incase.)-->
+        <!-- If you change these values from defaults make sure to update your .gitignore -->
+        <!-- <BuildBaseDir Condition=" '$(BuildBaseDir)' == '' ">bin</BuildBaseDir> -->
+        <!-- <BuildCacheDir Condition=" '$(BuildCacheDir)' == '' ">obj</BuildCacheDir> -->
+    </PropertyGroup>
+</Project>

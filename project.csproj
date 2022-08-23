@@ -1,0 +1,375 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <!-- Defines tasks that are used later. -->
+  <!-- <Import Project="$(MSBuildExtensionsPath)\MSBuildCommunityTasks\MSBuild.Community.Tasks.Targets"/> -->
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <Import Project="$(MSBuildProjectDirectory)\config\settings.targets"/>
+  <!-- These values should not need to be changed. Check the config folder. -->
+  <!-- Readin Var Files
+  <PropertyGroup>
+    <BuildBaseDir>$([System.IO.File]::ReadAllText(BuildBaseDir.var))</BuildBaseDir>
+    <BuildCacheDir>$([System.IO.File]::ReadAllText(BuildCacheDir.var))</BuildCacheDir>
+    <DebugTestWorldBase>$([System.IO.File]::ReadAllText(DebugTestWorldBase.var))</DebugTestWorldBase>
+    <DebugGameMode>$([System.IO.File]::ReadAllText(DebugGameMode.var))</DebugGameMode>
+    <VersionModMajor>$([System.IO.File]::ReadAllText(VersionModMajor.var))</VersionModMajor>
+    <VersionModMinor>$([System.IO.File]::ReadAllText(VersionModMinor.var))</VersionModMinor>
+    <VersionModPatch>$([System.IO.File]::ReadAllText(VersionModPatch.var))</VersionModPatch>
+    <GameFilesPrefix>$([System.IO.File]::ReadAllText(GameFilesPrefix.var))</GameFilesPrefix>
+    <VersionGame>$([System.IO.File]::ReadAllText(VersionGame.var))</VersionGame>
+    <VersionGameMinimum>$([System.IO.File]::ReadAllText(VersionGameMinimum.var))</VersionGameMinimum>
+    <ModNameHuman>$([System.IO.File]::ReadAllText(ModNameHuman.var))</ModNameHuman>
+    <ModNameMechine>$([System.IO.File]::ReadAllText(ModNameMechine.var))</ModNameMechine>
+  </PropertyGroup> -->
+  <PropertyGroup>
+    <!-- These are the config defaults values -->
+    <BuildBaseDir Condition=" '$(BuildBaseDir)' == '' ">bin</BuildBaseDir>
+    <BuildCacheDir Condition=" '$(BuildCacheDir)' == '' ">obj</BuildCacheDir>
+    <PropsCacheDir Condition=" '$(PropsCacheDir)' == '' ">Properties</PropsCacheDir>
+    <DebugTestWorldBase Condition=" '$(DebugTestWorldBase)' == '' ">moddingtestworld</DebugTestWorldBase>
+  </PropertyGroup>
+  <PropertyGroup>
+    <!-- Use config\ModsOutputDir.var to set a location for where all your mods go to test them together -->
+    <ModsOutputDir Condition=" '$(ModsOutputDir)' == '' ">$(MSBuildProjectDirectory)\$(BuildBaseDir)\mods</ModsOutputDir> <!-- This is the default don't change it just use <ModsOutputDir> above -->
+    <TestWorld>$(DebugTestWorldBase)_$(VersionGame)</TestWorld>
+  </PropertyGroup>
+
+
+  <!-- Do not change values after this unless you really know what you are doing -->
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>$(ModNameMechine)</RootNamespace>
+    <AssemblyName>$(ModNameMechine)</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>$(MSBuildProjectDirectory)\$(BuildBaseDir)\$(Configuration)\$(AssemblyName)\</OutputPath>
+    <IntermediateOutputPath>$(MSBuildProjectDirectory)\$(BuildCacheDir)\$(Configuration)\$(AssemblyName)\</IntermediateOutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>$(MSBuildProjectDirectory)\$(BuildBaseDir)\$(Configuration)\$(AssemblyName)\</OutputPath>
+    <IntermediateOutputPath>$(MSBuildProjectDirectory)\$(BuildCacheDir)\$(Configuration)\$(AssemblyName)\</IntermediateOutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="VintagestoryAPI">
+      <HintPath>C:\Games\VintageStory\Vintagestory_1.17.0rc5\VintagestoryAPI.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="VSSurvivalMod">
+      <HintPath>C:\Games\VintageStory\Vintagestory_1.17.0rc5\Mods\VSSurvivalMod.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="VSEssentials">
+      <HintPath>C:\Games\VintageStory\Vintagestory_1.17.0rc5\Mods\VSEssentials.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="VSCreativeMod">
+      <HintPath>C:\Games\VintageStory\Vintagestory_1.17.0rc5\Mods\VSCreativeMod.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>C:\Games\VintageStory\Vintagestory_1.17.0rc5\Lib\Newtonsoft.Json.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+  <PropertyGroup>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+  </PropertyGroup> 
+  <ItemGroup>
+    <None Include="assets\**" CopyToOutputDirectory="Always"/>
+    <Content Include="config\modicon.png" CopyToOutputDirectory="PreserveNewest" />
+    <!-- <Content Include="modinfo.json" CopyToOutputDirectory="PreserveNewest" /> -->
+  </ItemGroup>
+  <!-- Should Create AssemblyInfo.cs now-->
+
+    <!-- Sets Version Number property. -->
+  <Target Name="BuildMakeVersionNumber">
+    <message text="C:\Games\VintageStory\Vintagestory_1.17.0rc5"/>
+    <CreateProperty Value="$(VersionModMajor).$(VersionModMinor).$(VersionModPatch).0"> <!-- TODO: Change this to use an auto incrementing value for the revision number-->
+      <Output PropertyName="BuildAssemblyVersionNumber" TaskParameter="Value" />
+    </CreateProperty>
+    <CreateProperty Value="$(VersionModMajor).$(VersionModMinor).$(VersionModPatch)"> <!-- TODO: Change this to use an auto incrementing value for the revision number-->
+      <Output PropertyName="BuildModVersionNumber" TaskParameter="Value" />
+    </CreateProperty>
+  </Target>
+
+  <!-- Claim we want to use the AssemblyInfo.cs file when building. -->
+  <ItemGroup>
+    <DynamicAssemblyInfo Include="src\AssemblyInfo.cs" />
+    <!-- <Compile Include="@(DynamicAssemblyInfo)" /> -->
+  </ItemGroup>
+
+  <PropertyGroup>
+    <!-- <AuthorsOutput>$([System.String]::Join("\", \"", $([System.String]::Copy("$(ModAuthors)").Split("|")))</AuthorsOutput> -->
+    <AuthorsOutput>"$([System.String]::Join('", "', $([System.String]::Copy("$(ModAuthors)").Split("|"))))"</AuthorsOutput>
+    <!-- <AuthorsOutput>$([System.String]::Copy("$(ModAuthors)").Split("|"))</AuthorsOutput> -->
+
+    <!-- <DependancyKeysOnly>$([System.String]::Join('", "', $([System.String]::Copy("$(ModDependencies)").Split("|"))))</DependancyKeysOnly> -->
+    <!-- <DependancyKeysOnly>$(ModDependencies.GetType())</DependancyKeysOnly> -->
+    <!-- <DependancyKeysOnly>"$([System.String]::Join('", "', $([System.String]::Copy("$(ModDependenciesNameOnly)").Split("|"))))"</DependancyKeysOnly> -->
+    <!-- <DependenciesWithVersions>$(
+      [System.String]::Join('", "', 
+        $([System.String]::Copy("$(ModModDependenciesWithVersions)").Split("|").Aggregate(
+          (acc, next)=>acc+(next.Split("|"))[0]
+        ))
+      )
+    )</DependenciesWithVersions> -->
+    <!-- <DependenciesWithVersions>$(
+      [System.String]::Join('", "', 
+        $([System.String]::Copy("$(ModModDependenciesWithVersions)").Split("|").Select(x=>x.Split(":")[0]))
+      )
+    )</DependenciesWithVersions> -->
+    <!-- <ModDependencies>$([System.Text.RegularExpressions.Regex]::Matches($(ModDependenciesWithVersions), '(\w+)(?:\|(\w+))?(?::(\S+))?') | % { "$($_.Groups[1].Value)": "$($_.Groups[2].Value)", "version": "$($_.Groups[3].Value)" })</ModDependencies> -->
+    <!-- <DependenciesWithVersions>$([System.Text.Json.JsonSerializer]::Serialize(ModDependencies))</DependenciesWithVersions> -->
+    <!-- <DependenciesWithVersions>$(ModDependencies)</DependenciesWithVersions> -->
+    <!-- <DependenciesWithVersions>$(
+      ModDependencies
+    )</DependenciesWithVersions> -->
+    <ModDependencies><root>$(ModDependencies)</root></ModDependencies>
+    <ModRequiredOnClient Condition=" '$(ModRequiredOnClient.ToLower())' == 'true' ">true</ModRequiredOnClient>
+    <ModRequiredOnClient Condition=" '$(ModRequiredOnClient.ToLower())' != 'true' ">false</ModRequiredOnClient>
+  </PropertyGroup>
+
+  <UsingTask TaskName="XmlToJson" TaskFactory="RoslynCodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.Core.dll">
+    <ParameterGroup>
+      <XML ParameterType="System.String" Required="true" />
+      <GameVersion ParameterType="System.String" Required="true" />
+      <AssemblyFile ParameterType="System.Boolean" />
+      <ResultOutput ParameterType="System.String" Output="true" />
+    </ParameterGroup>
+    <Task>
+      <!-- <Reference Include="System.Xml"/> -->
+      <Using Namespace="System"/>
+      <Using Namespace="System.IO"/>
+      <Using Namespace="System.Xml"/>
+      <Code Type="Fragment" Language="cs"><![CDATA[
+XmlDocument doc = new XmlDocument();
+doc.LoadXml(XML);
+var root = doc.DocumentElement;
+
+var result = new Dictionary<string, string>();
+
+foreach (XmlNode node in root.ChildNodes)
+{
+    if(node.Name == "#comment") continue;
+    
+    Console.WriteLine("Key |"+node.Name+"|");
+    //result[node.Name] = node.InnerText;
+    result.Add(node.Name, node.InnerText);
+}
+
+if(AssemblyFile){
+  ResultOutput=$"ModDependency(\"game\",\""+GameVersion+"\")";
+  foreach(var kvp in result)
+  {
+    if(kvp.Value.Trim() != "") ResultOutput+=$", ModDependency(\"{kvp.Key}\", \"{kvp.Value}\")";
+    else ResultOutput+=$", ModDependency(\"{kvp.Key}\")";
+  }
+} else{
+  ResultOutput="{ \"game\": \""+GameVersion+"\"";
+  foreach(var kvp in result)
+  {
+      ResultOutput+=$", \"{kvp.Key}\": \"{kvp.Value}\"";
+  }
+  ResultOutput+=" }";
+}
+
+Console.WriteLine(ResultOutput);
+//return ResultOutput;
+]]></Code>
+    </Task>
+  </UsingTask>
+
+  <Target Name="BuildDependancies"
+          BeforeTargets="BeforeBuild;BeforeRebuild">
+    <XmlToJson XML="$(ModDependencies)" GameVersion="$(VersionGame)">
+      <Output PropertyName="DependenciesWithVersions" TaskParameter="ResultOutput" />
+    </XmlToJson>
+    <XmlToJson XML="$(ModDependencies)" GameVersion="$(VersionGame)" AssemblyFile="true">
+      <Output PropertyName="DependancyAssembly" TaskParameter="ResultOutput" />
+    </XmlToJson>
+    <!-- <Message Text="XML is $(ModDependencies)" Importance="High" /> -->
+    <!-- <Message Text="Result is $(DependenciesWithVersions)" Importance="High" /> -->
+  </Target>
+
+  <Target Name="BuildAssemblyInfo"
+          DependsOnTargets="BuildMakeVersionNumber"
+          BeforeTargets="BeforeBuild;BeforeRebuild">
+    <Message Importance="high" Text="Making AssemblyInfo"/>
+    <MakeDir Directories="$(MSBuildProjectDirectory)\$(PropsCacheDir)" />
+    <WriteLinesToFile File="@(DynamicAssemblyInfo)"
+      Lines='using System.Reflection%3B
+  using System.Runtime.CompilerServices%3B
+  using System.Runtime.InteropServices%3B
+  using Vintagestory.API.Common%3B
+
+  // General Information about an assembly is controlled through the following 
+  // set of attributes. Change these attribute values to modify the information
+  // associated with an assembly.
+  [assembly: AssemblyTitle("$(ModNameHuman)")]
+  [assembly: AssemblyDescription("$(ModDescription)")]
+  [assembly: AssemblyConfiguration("$(Configuration)")]
+  [assembly: AssemblyCompany("$(BuildAssemblyCompany)")]
+  [assembly: AssemblyProduct("$(ModNameMechine)")]
+  [assembly: AssemblyCopyright("$(BuildAssemblyCopyright)")]
+  [assembly: AssemblyTrademark("")]
+  [assembly: AssemblyCulture("")]
+
+  // Setting ComVisible to false makes the types in this assembly not visible 
+  // to COM components.  If you need to access a type in this assembly from 
+  // COM, set the ComVisible attribute to true on that type.
+  [assembly: ComVisible(false)]
+
+  // The following GUID is for the ID of the typelib if this project is exposed to COM
+  [assembly: Guid("$(ProjectGUID)")]
+
+  // Version information for an assembly consists of the following four values:
+  //
+  //      Major Version
+  //      Minor Version 
+  //      Build Number
+  //      Revision
+  //
+  [assembly: AssemblyVersion("$(BuildAssemblyVersionNumber)")]
+  [assembly: AssemblyFileVersion("$(BuildAssemblyVersionNumber)")]
+
+
+  [assembly: $(DependancyAssembly)]
+  [assembly: ModInfo("$(ModNameHuman)", "$(ModNameMechine)", Version = "$(BuildModVersionNumber)", Authors = new string[] { $(AuthorsOutput) },
+          Website = "$(ModWebsite)", Description = "$(ModDescription)", RequiredOnClient = $(ModRequiredOnClient))]'
+      Overwrite="true"/>
+      <ItemGroup>
+        <Compile Remove="$(MSBuildProjectDirectory)\src\AssemblyInfo.cs" />
+      </ItemGroup>
+      <!-- <ItemGroup>
+        <Compile Include="$(MSBuildProjectDirectory)\src\AssemblyInfo.cs" />
+      </ItemGroup> -->
+  </Target>
+
+  <!-- Deletes the AssemblyInfo.cs file. -->
+  <Target Name="DeleteAssemblyInfo" BeforeTargets="Clean">
+    <Delete Files="$(MSBuildProjectDirectory)\$(PropsCacheDir)\AssemblyInfo.cs" />
+  </Target>
+<!-- 
+  <! - - Target that actually creates the AssemblyInfo.cs file. - - >
+  <Target Name="BuildAssemblyInfo"
+          DependsOnTargets="BuildMakeVersionNumber" >
+    <MakeDir Directories="$(PropsCacheDir)" />
+    <AssemblyInfo OutputFile="@(DynamicAssemblyInfo)"
+                  CodeLanguage="CS"
+                  AssemblyCompany="$(BuildAssemblyCompany)"
+                  AssemblyConfiguration="$(Configuration)"
+                  AssemblyCopyright="$(BuildAssemblyCopyright)"
+                  AssemblyFileVersion="$(BuildAssemblyVersionNumber)"
+                  AssemblyInformationalVersion="$(BuildAssemblyVersionNumber)"
+                  AssemblyTitle="$(ModAuthors)"
+                  AssemblyVersion="$(BuildAssemblyVersionNumber)"
+                  ModDependency="game"
+                  />
+  </Target> -->
+
+
+  <ItemGroup>
+    <!-- <Compile Include="src\AssemblyInfo.cs" /> -->
+    <Compile Include="src\**" />
+  </ItemGroup>
+
+  <!-- Inserts AssemblyInfo.cs file generation into the build pipeline. -->
+  <!-- <PropertyGroup>
+    <BuildDependsOn>BuildMakeVersionNumber;BuildAssemblyInfo;$(BuildDependsOn)</BuildDependsOn>
+    <CleanDependsOn>DeleteAssemblyInfo;$(CleanDependsOn)</CleanDependsOn>
+  </PropertyGroup> -->
+
+  <!-- Import the actual build process for CSharp -->
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+
+  <!-- Should write modInfo.json now -->
+  <Target Name="WriteModInfo" AfterTargets="AfterBuild">
+    <WriteLinesToFile
+        File="$(OutputPath)\modinfo.json"
+        Lines='{
+  "type": "#(ModType)",
+  "modid": "$(ModNameMechine)",
+  "name": "$(ModNameHuman)",
+  "authors": [ $(AuthorsOutput) ],
+  "description": "$(ModDescription)",
+  "version": "$(BuildModVersionNumber)",
+  "dependencies": $(DependenciesWithVersions)
+}
+'
+        Overwrite="true"/>
+  </Target>
+  <Target Name="ZipOutput" AfterTargets="WriteModInfo">
+      <Message Importance="high" Text="Making Zip"/>
+      <MakeDir
+            Directories="$(MSBuildProjectDirectory)\$(BuildBaseDir)\mods"/>
+      <ZipDirectory
+          SourceDirectory="$(OutputPath)"
+          DestinationFile="$(MSBuildProjectDirectory)\$(BuildBaseDir)\$(ModNameHuman)_v$(VersionModMajor).$(VersionModMinor).$(VersionModPatch)g$(VersionGameMinimum).$(Configuration).zip"
+          Overwrite="true" />
+      <Move Condition=" '$(Configuration)' == 'Debug' "
+        SourceFiles="$(MSBuildProjectDirectory)\$(BuildBaseDir)\$(ModNameHuman)_v$(VersionModMajor).$(VersionModMinor).$(VersionModPatch)g$(VersionGameMinimum).$(Configuration).zip" 
+        DestinationFiles="$(ModsOutputDir)\$(ModNameHuman)_v$(VersionModMajor).$(VersionModMinor).$(VersionModPatch)g$(VersionGameMinimum).$(Configuration).zip"/>
+  </Target>
+  <Target Name="WriteLaunchFile" AfterTargets="ZipOutput">
+        <WriteLinesToFile
+            File="$(MSBuildProjectDirectory)\.vscode\launch.json"
+            Lines='{
+	"version": "0.2.0",
+	"configurations": [{
+		"name": "Launch Client (.NET)",
+		"type": "clr",
+		"request": "launch",
+		"preLaunchTask": "Build (Debug)",
+        "envFile": "${workspaceFolder}/.env",
+		"program": "$([System.String]::Copy("$(GameFilesPrefix)").Replace("\","/"))$(VersionGame)/Vintagestory.exe",
+		"args": [
+			"--playStyle" , "preset-surviveandbuild",
+			"--openWorld" , "$(TestWorld)",
+			"--addModPath", "$([System.String]::Copy("$(ModsOutputDir)").Replace("\","/"))",
+		],
+		"console": "internalConsole",
+		"internalConsoleOptions": "openOnSessionStart",
+	},{
+		"name": "Launch Client (Mono)",
+		"type": "mono",
+		"request": "launch",
+		"preLaunchTask": "Build (Debug)",
+		"program": "$([System.String]::Copy("$(GameFilesPrefix)").Replace("\","/"))$(VersionGame)/Vintagestory.exe",
+		"args": [
+			"--playStyle" , "preset-surviveandbuild",
+			"--openWorld" , "$(TestWorld)",
+			"--addModPath", "$([System.String]::Copy("$(ModsOutputDir)").Replace("\","/"))",
+		],
+		"console": "internalConsole",
+		"internalConsoleOptions": "openOnSessionStart",
+	}]
+}'
+            Overwrite="true"/>
+    </Target>
+  <PropertyGroup>
+    <PostBuildEvent>echo Built $(Configuration) build of $(ModNameHuman)_v$(VersionModMajor).$(VersionModMinor).$(VersionModPatch)g$(VersionGame)</PostBuildEvent>
+  </PropertyGroup>
+</Project>
